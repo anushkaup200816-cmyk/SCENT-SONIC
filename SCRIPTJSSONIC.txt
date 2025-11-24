@@ -1,0 +1,93 @@
+const SCENTS = ["Warm fabric softener","Rain on terrace","Petrichor","Jasmine breeze","Lavender","Sea salt","Vanilla warmth","Candle smoke"];
+const SAMPLE_SONGS = ["Illicit Affairs – Taylor Swift","Until I Found You – Stephen Sanchez","Snow On The Beach – Taylor Swift ft. Lana Del Rey","Sunflower – Rex Orange County","August – Taylor Swift"];
+
+let username = "";
+let memories = [];
+let gallery = [];
+
+const loginScreen = document.getElementById('login-screen');
+const mainApp = document.getElementById('main-app');
+const loginBtn = document.getElementById('login-btn');
+const usernameInput = document.getElementById('username');
+const loginError = document.getElementById('login-error');
+const welcomeUser = document.getElementById('welcome-user');
+const toggleCreateBtn = document.getElementById('toggle-create');
+const creatorDiv = document.getElementById('creator');
+const songInput = document.getElementById('song-input');
+const scentsList = document.getElementById('scents-list');
+const previewSong = document.getElementById('preview-song');
+const previewScent = document.getElementById('preview-scent');
+const previewMood = document.getElementById('preview-mood');
+const memoryText = document.getElementById('memory-text');
+const saveBtn = document.getElementById('save-btn');
+const shareBtn = document.getElementById('share-btn');
+const memoriesGrid = document.getElementById('memories-grid');
+const galleryGrid = document.getElementById('gallery-grid');
+
+function summarizeMood(song,scent,text){
+  const lower = `${song} ${scent} ${text}`.toLowerCase();
+  if(lower.includes("rain")||lower.includes("petrichor")) return "dreamy";
+  if(lower.includes("sun")||lower.includes("sunflower")) return "warm";
+  if(lower.includes("lavender")||lower.includes("calm")) return "calm";
+  if(lower.includes("ache")||lower.includes("longing")||lower.includes("illicit")) return "aching";
+  return "gentle";
+}
+
+function renderScents() {
+  scentsList.innerHTML = "";
+  SCENTS.forEach(s => {
+    const btn = document.createElement("button");
+    btn.textContent = s;
+    btn.onclick = () => { songInput.dataset.scent=s; previewScent.textContent=s; };
+    scentsList.appendChild(btn);
+  });
+}
+
+function renderMemories() {
+  memoriesGrid.innerHTML = "";
+  memories.forEach(m => {
+    const div = document.createElement("div");
+    div.className="memory-card";
+    div.innerHTML=`<strong>${m.song}</strong> <small>${m.scent}</small><p>${m.text}</p>`;
+    memoriesGrid.appendChild(div);
+  });
+}
+
+loginBtn.onclick = () => {
+  if(!usernameInput.value.trim()) { loginError.textContent="Enter username"; return; }
+  username = usernameInput.value.trim();
+  welcomeUser.textContent = `Welcome, ${username}`;
+  loginScreen.classList.add('hidden');
+  mainApp.classList.remove('hidden');
+  renderScents();
+};
+
+toggleCreateBtn.onclick = () => {
+  creatorDiv.classList.toggle('hidden');
+};
+
+songInput.oninput = () => {
+  previewSong.textContent = songInput.value;
+  previewMood.textContent = summarizeMood(songInput.value,previewScent.textContent,memoryText.value);
+};
+
+memoryText.oninput = () => {
+  previewMood.textContent = summarizeMood(songInput.value,previewScent.textContent,memoryText.value);
+};
+
+saveBtn.onclick = () => {
+  const mem = { song:songInput.value,scent:previewScent.textContent,text:memoryText.value };
+  memories.unshift(mem);
+  renderMemories();
+  memoryText.value="";
+};
+
+shareBtn.onclick = () => {
+  const mem = { song:songInput.value,scent:previewScent.textContent,text:memoryText.value };
+  gallery.unshift(mem);
+  const div = document.createElement("div");
+  div.className="memory-card";
+  div.innerHTML=`<strong>${mem.song}</strong> <small>${mem.scent}</small><p>${mem.text}</p>`;
+  galleryGrid.appendChild(div);
+  memoryText.value="";
+};

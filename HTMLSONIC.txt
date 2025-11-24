@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scent × Song Memory Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div id="login-screen" class="screen">
+    <div class="stars"></div>
+    <div class="login-card">
+      <h1>Scent Sonic</h1>
+      <input type="text" id="username" placeholder="Username">
+      <button id="login-btn">Enter</button>
+      <p id="login-error"></p>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="main-app" class="screen hidden">
+    <div class="stars"></div>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div>
+          <h1 id="welcome-user"></h1>
+          <p>Your scent × song memories live here.</p>
+        </div>
+        <button id="toggle-create">+</button>
+      </header>
+
+      <!-- Memory Creator -->
+      <div id="creator" class="creator">
+        <div>
+          <label>Song</label>
+          <input type="text" id="song-input" placeholder="Song name">
+          <label>Scent</label>
+          <div id="scents-list"></div>
+        </div>
+        <div>
+          <label>Preview</label>
+          <div class="preview">
+            <div id="preview-song"></div>
+            <div id="preview-scent"></div>
+            <small id="preview-mood"></small>
+          </div>
+        </div>
+        <label>Memory</label>
+        <textarea id="memory-text" placeholder="Write your memory..."></textarea>
+        <div>
+          <button id="save-btn">Save</button>
+          <button id="share-btn">Share anonymously</button>
+        </div>
+      </div>
+
+      <!-- Memories Grid -->
+      <section id="memories-grid"></section>
+
+      <!-- Discover Gallery -->
+      <section id="gallery-grid">
+        <h2>Discover (Anonymous)</h2>
+      </section>
+    </div>
+
+    <!-- Signature -->
+    <div class="signature">
+      <span>MADE BY ANUSHKA</span>
+      <img src="lily-jump.png" alt="lily" class="lily">
+    </div>
+  </div>
+
+<script src="script.js"></script>
+</body>
+</html>
